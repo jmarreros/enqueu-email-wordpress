@@ -1,3 +1,3 @@
 # Init plugin
 
-Replace enqueu and email
+Add emails to enqueu into database and send email by cron job
