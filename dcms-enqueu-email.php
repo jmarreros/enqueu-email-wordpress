@@ -14,13 +14,17 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
 namespace dcms\enqueu;
 
+use dcms\enqueu\includes\Database;
 use dcms\enqueu\includes\Plugin;
 use dcms\enqueu\includes\Submenu;
 use dcms\enqueu\includes\Settings;
+use dcms\enqueu\includes\Process;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+global $dcms_mail_real;
 
 /**
  * Plugin class to handle settings constants and loading files
@@ -40,9 +44,11 @@ final class Loader{
 	// Load all the files we need
 	public function load_includes(){
 		include_once ( DCMS_ENQUEU_PATH . '/helpers/helper.php');
+		include_once ( DCMS_ENQUEU_PATH . '/includes/database.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/plugin.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/submenu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/settings.php');
+		include_once ( DCMS_ENQUEU_PATH . '/includes/process.php');
 	}
 
 	// Load tex domain
@@ -71,6 +77,7 @@ final class Loader{
 		new Plugin();
 		new SubMenu();
 		new Settings();
+		new Process();
 	}
 
 }

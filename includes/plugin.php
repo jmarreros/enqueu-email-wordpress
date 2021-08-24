@@ -13,9 +13,8 @@ class Plugin{
 
     // Activate plugin - create options and database table
     public function dcms_activation_plugin(){
-        // if ( ! get_option('dcms_last_modified_file') ){
-        //     update_option('dcms_last_modified_file', 0);
-        // }
+        $db = new Database();
+        $db->create_table_enqueu();
     }
 
     // Deactivate plugin
