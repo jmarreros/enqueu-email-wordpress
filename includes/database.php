@@ -18,7 +18,7 @@ class Database{
         $sql = " CREATE TABLE IF NOT EXISTS {$this->table_enqueu} (
                     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                     `data` mediumtext DEFAULT NULL,
-                    `status` tinyint unsigned DEFAULT 0,
+                    `status` tinyint DEFAULT 0,
                     `type` varchar(50) DEFAULT NULL,
                     `resend` boolean DEFAULT FALSE,
                     `date` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -30,10 +30,15 @@ class Database{
     }
 
     // Get pendieng email
-    public function get_pending_emails( $qty ){
+    public function get_pending_emails( $qty = 0){
+
+        $limit = $qty != 0
+                    ? ' limit 0, '. $qty
+                    : '';
+
         $sql = $this->wpdb->prepare("SELECT * FROM $this->table_enqueu
                                 WHERE status = 0
-                                ORDER BY id ASC limit 0, $qty");
+                                ORDER BY id ASC $limit");
 
         $result = $this->wpdb->get_results($sql);
 		return $result;
@@ -48,9 +53,9 @@ class Database{
         return $this->wpdb->insert( $this->table_enqueu, $item, ['%s', '%s']);
     }
 
-    // Udpate state, status =0 no sent, status = 1 send
-    public function update_email_status( $id ){
-        $data = [ 'status' => 1 ];
+    // Udpate state, status =0 no sent, status = 1 send, status = -1 error
+    public function update_email_status( $id, $status = 0 ){
+        $data = [ 'status' => $status ];
         $where = [ 'id' => $id ];
 
         return $this->wpdb->update($this->table_enqueu, $data, $where);

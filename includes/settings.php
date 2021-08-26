@@ -13,7 +13,9 @@ class Settings{
 
     // Register seccions and fields
     public function init_configuration(){
-        register_setting('dcms_enqueu_options_bd', DCMS_ENQUEU_OPTIONS , [$this, 'validate_number']);
+        register_setting('dcms_enqueu_options_bd',
+                          DCMS_ENQUEU_OPTIONS ,
+                          [$this, 'validate_number']);
 
         $this->fields_enqueue();
     }
@@ -25,6 +27,18 @@ class Settings{
                         __('Configuración cola de correos', 'dcms-enqueu-email'),
                                 [$this,'dcms_section_cb'],
                                 'dcms_enqueue_sfields' );
+
+        add_settings_field('dcms_check_enable_queue',
+                        __('Habilitar encolado de correo', 'dcms-enqueu-email'),
+                            [$this, 'dcms_section_check_cb'],
+                            'dcms_enqueue_sfields',
+                            'dcms_enqueue_section',
+                            [
+                                'dcms_option' => DCMS_ENQUEU_OPTIONS,
+                                'label_for' => 'dcms_enable_queue',
+                                'description' => 'Guardar el correo en la base de datos y enviarlo posteriormente a través de un cron'
+                            ]
+        );
 
         add_settings_field('dcms_cron_interval',
                             __('Intervalo CRON', 'dcms-enqueu-email'),
@@ -80,13 +94,38 @@ class Settings{
     }
 
 
+    // Callback input field callback
+    public function dcms_section_check_cb($args){
+        $id = $args['label_for'];
+        $desc = isset($args['description']) ? $args['description'] : '';
+        $dcms_option = $args['dcms_option'];
+
+        $options = get_option( $dcms_option );
+        $val = checked(isset( $options[$id] ), true, false);
+
+        printf("<input id='%s' name='%s[%s]' type='checkbox' %s > %s",
+        $id, $dcms_option, $id, $val, $desc);
+    }
+
+    // Callback input checkbox field callback
+    // public function dcms_section_check_cb( $args ){
+    //     $dcms_option = $args['dcms_option'];
+    //     $id = $args['label_for'];
+    //     $desc = isset($args['description']) ? $args['description'] : '';
+
+    //     $options = get_option( $dcms_option );
+    //     $val = checked(isset( $options[$id] ), true, false);
+
+    //     printf("<input id='%s' name='dcms_user_excel_options[%s]' type='checkbox' %s > %s",
+    //     $id, $id, $val, $desc);
+
+	// }
+
+
     public function validate_number( $input ){
-        $output = [];
-
-        $output['dcms_cron_interval'] = abs(intval($input['dcms_cron_interval']));
-        $output['dcms_quantity_batch'] = abs(intval($input['dcms_quantity_batch']));
-
-        return $output;
+        $input['dcms_cron_interval'] = abs(intval($input['dcms_cron_interval']));
+        $input['dcms_quantity_batch'] = abs(intval($input['dcms_quantity_batch']));
+        return $input;
     }
 
 }

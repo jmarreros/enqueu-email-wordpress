@@ -1,0 +1,44 @@
+.container-report .dcms-table {
+  margin-top: 10px;
+  width: 100%;
+  background-color: white;
+}
+
+.container-report .dcms-table th {
+  background-color: black;
+  color: white;
+}
+
+.dcms-table .delete {
+  color: #b32d2e;
+  text-decoration: none;
+}
+
+.dcms-table .resend {
+  text-decoration: none;
+}
+
+.dcms-table .state {
+  font-size: 9px;
+  text-transform: uppercase;
+  background-color: grey;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+.dcms-table .state.pending {
+  background-color: darkgoldenrod;
+}
+
+.container-report .table-container {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.container-report .table-container .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}

@@ -16,6 +16,7 @@ namespace dcms\enqueu;
 
 use dcms\enqueu\includes\Database;
 use dcms\enqueu\includes\Plugin;
+use dcms\enqueu\includes\Enqueu;
 use dcms\enqueu\includes\Submenu;
 use dcms\enqueu\includes\Settings;
 use dcms\enqueu\includes\Process;
@@ -39,6 +40,7 @@ final class Loader{
 		define ('DCMS_ENQUEU_BASE_NAME', plugin_basename( __FILE__ ));
 		define ('DCMS_ENQUEU_SUBMENU', 'tools.php');
 		define ('DCMS_ENQUEU_OPTIONS', 'dcms_enqueu_options');
+		define ('DCMS_ENQUEU_TIME_BETWEEN_MAILS', 5000); // Microseconds
 	}
 
 	// Load all the files we need
@@ -46,6 +48,7 @@ final class Loader{
 		include_once ( DCMS_ENQUEU_PATH . '/helpers/helper.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/database.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/plugin.php');
+		include_once ( DCMS_ENQUEU_PATH . '/includes/enqueu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/submenu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/settings.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/process.php');
@@ -75,6 +78,7 @@ final class Loader{
 		$this->load_domain();
 		$this->add_link_plugin();
 		new Plugin();
+		new Enqueu();
 		new SubMenu();
 		new Settings();
 		new Process();

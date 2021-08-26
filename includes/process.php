@@ -6,9 +6,19 @@ use dcms\enqueu\includes\Database;
 
 class Process{
 
+    private $enable_enqueu;
+    private $interval_cron;
+    private $quantity_batch;
+
     public function __construct(){
 		global $dcms_mail_real;
-		$dcms_mail_real = false;
+
+        $options = get_option(DCMS_ENQUEU_OPTIONS);
+        $this->enable_enqueu = $options['dcms_enable_queue'];
+        $this->interval_cron = $options['dcms_cron_interval'];
+        $this->quantity_batch = $options['dcms_quantity_batch'];
+
+		$dcms_mail_real = ! $this->enable_enqueu ? true : false;
 
         add_filter( 'wp_mail', [$this, 'dcms_wp_mail'], 1, 1 );
 		add_filter( 'pre_wp_mail', [$this, 'dcms_pre_wp_mail'], 9999, 2 );
@@ -59,7 +69,31 @@ class Process{
 
         $db = new Database();
 
-        $result = $db->get_pending_emails(150);
+        $items = $db->get_pending_emails($this->quantity_batch);
+
+        if ( $items ){
+
+            foreach( $items as $item){
+                $atts = json_decode(base64_decode($item->data), true);
+
+                $to = $atts['to'];
+				$subject = $atts['subject'];
+				$message = $atts['message'];
+				$headers = $atts['headers'];
+				$attachments = $atts['attachments'];
+
+                global $dcms_mail_real;
+                $dcms_mail_real = true;
+
+                $sended= wp_mail($to, $subject, $message, $headers, $attachments);
+
+                $status = $sended ? 1 : -1; // 1 ok , -1 error
+                $db->update_email_status($item->id, $status);
+
+                usleep(DCMS_ENQUEU_TIME_BETWEEN_MAILS);
+            }
+
+        }
 
         wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '?page=enqueu-email' ) );
     }

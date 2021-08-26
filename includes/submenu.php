@@ -2,6 +2,8 @@
 
 namespace dcms\enqueu\includes;
 
+use dcms\enqueu\includes\Database;
+
 /**
  * Class for creating a dashboard submenu
  */
@@ -25,6 +27,18 @@ class Submenu{
 
     // Callback, show view
     public function submenu_page_callback(){
+        wp_enqueue_style('admin-enqueu-style');
+        // wp_enqueue_script('admin-reservation-script');
+        // wp_localize_script('admin-reservation-script','dcms_res_config',[
+        //         'ajaxurl'=>admin_url('admin-ajax.php'),
+        //         'nonce' => wp_create_nonce('ajax-nonce-config')
+        //     ]);
+
+        $options =
+
+        $db = new Database();
+        $items = $db->get_pending_emails();
+
         include_once (DCMS_ENQUEU_PATH. '/views/main-screen.php');
     }
 }
