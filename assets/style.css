@@ -28,7 +28,15 @@
 }
 
 .dcms-table .state.pending {
-  background-color: darkgoldenrod;
+  background-color: #1693b9;
+}
+
+.dcms-table .state.error {
+  background-color: red;
+}
+
+.dcms-table .state.sent {
+  background-color: green;
 }
 
 .container-report .table-container {
@@ -40,5 +48,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 8px;
+}
+
+.container-report .subsubsub {
+  float: none;
   margin-top: 12px;
 }

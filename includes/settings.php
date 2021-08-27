@@ -26,7 +26,7 @@ class Settings{
         add_settings_section('dcms_enqueue_section',
                         __('Configuración cola de correos', 'dcms-enqueu-email'),
                                 [$this,'dcms_section_cb'],
-                                'dcms_enqueue_sfields' );
+                                'dcms_enqueue_sfields');
 
         add_settings_field('dcms_check_enable_queue',
                         __('Habilitar encolado de correo', 'dcms-enqueu-email'),
@@ -66,7 +66,49 @@ class Settings{
                             ]
         );
 
+        // add_settings_field('dcms_remove_log',
+        //                     __('Intervalo borrar log', 'dcms-enqueu-email'),
+        //                     [$this, 'dcms_section_input_cb'],
+        //                     'dcms_enqueue_sfields',
+        //                     'dcms_enqueue_section',
+        //                     [
+        //                     'dcms_option' => DCMS_ENQUEU_OPTIONS,
+        //                     'label_for' => 'dcms_remove_log',
+        //                     'required' => true,
+        //                     'description' => 'Intervalo en días para eliminar el log de correos enviados y correos con errores'
+        //                     ]
+        // );
+
+        add_settings_section('dcms_enqueue_section2',
+                                __('Configuración envío', 'dcms-enqueu-email'),
+                                [$this,'dcms_section_cb'],
+                                'dcms_enqueue_sfields' );
+
+        add_settings_field('dcms_enqueue_from',
+                                __('Correo emisor', 'dcms-enqueu-email'),
+                                [$this, 'dcms_section_input_cb'],
+                                'dcms_enqueue_sfields',
+                                'dcms_enqueue_section2',
+                                [
+                                'dcms_option' => DCMS_ENQUEU_OPTIONS,
+                                'label_for' => 'dcms_enqueue_from',
+                                'description' => ''
+                                ]
+                    );
+
+        add_settings_field('dcms_enqueue_from_name',
+                                __('Nombre emisor', 'dcms-enqueu-email'),
+                                [$this, 'dcms_section_input_cb'],
+                                'dcms_enqueue_sfields',
+                                'dcms_enqueue_section2',
+                                [
+                                'dcms_option' => DCMS_ENQUEU_OPTIONS,
+                                'label_for' => 'dcms_enqueue_from_name',
+                                'description' => ''
+                                ]
+        );
     }
+
 
     // Métodos auxiliares genéricos
 
@@ -93,7 +135,6 @@ class Settings{
 
     }
 
-
     // Callback input field callback
     public function dcms_section_check_cb($args){
         $id = $args['label_for'];
@@ -106,21 +147,6 @@ class Settings{
         printf("<input id='%s' name='%s[%s]' type='checkbox' %s > %s",
         $id, $dcms_option, $id, $val, $desc);
     }
-
-    // Callback input checkbox field callback
-    // public function dcms_section_check_cb( $args ){
-    //     $dcms_option = $args['dcms_option'];
-    //     $id = $args['label_for'];
-    //     $desc = isset($args['description']) ? $args['description'] : '';
-
-    //     $options = get_option( $dcms_option );
-    //     $val = checked(isset( $options[$id] ), true, false);
-
-    //     printf("<input id='%s' name='dcms_user_excel_options[%s]' type='checkbox' %s > %s",
-    //     $id, $id, $val, $desc);
-
-	// }
-
 
     public function validate_number( $input ){
         $input['dcms_cron_interval'] = abs(intval($input['dcms_cron_interval']));

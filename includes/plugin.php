@@ -15,10 +15,16 @@ class Plugin{
     public function dcms_activation_plugin(){
         $db = new Database();
         $db->create_table_enqueu();
+
+        // // Create cron
+        if( ! wp_next_scheduled( 'dcms_enqueu_hook' ) ) {
+            wp_schedule_event( current_time( 'timestamp' ), 'dcms_enqueu_interval', 'dcms_enqueu_hook' );
+        }
     }
 
     // Deactivate plugin
     public function dcms_deactivation_plugin(){
+        wp_clear_scheduled_hook( 'dcms_enqueu_hook' );
     }
 
 }

@@ -5,7 +5,7 @@ if ( ! current_user_can( 'manage_options' ) ) return; // only administrator
 // Tabs definitions
 $plugin_tabs = Array();
 $plugin_tabs['cron-log'] = __('Log de Correos', 'dcms-enqueu-email');
-$plugin_tabs['cron-config'] = __('Configuración Cron', 'dcms-enqueu-email');
+$plugin_tabs['cron-config'] = __('Configuración', 'dcms-enqueu-email');
 $current_tab = isset( $_GET['tab'] ) ? $_GET['tab'] : 'cron-log';
 
 

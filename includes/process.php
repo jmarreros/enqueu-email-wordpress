@@ -7,16 +7,18 @@ use dcms\enqueu\includes\Database;
 class Process{
 
     private $enable_enqueu;
-    private $interval_cron;
     private $quantity_batch;
+    private $email_from;
+    private $email_from_name;
 
     public function __construct(){
 		global $dcms_mail_real;
 
         $options = get_option(DCMS_ENQUEU_OPTIONS);
         $this->enable_enqueu = $options['dcms_enable_queue'];
-        $this->interval_cron = $options['dcms_cron_interval'];
         $this->quantity_batch = $options['dcms_quantity_batch'];
+        $this->email_from = $options['dcms_enqueue_from'];
+        $this->email_from_name = $options['dcms_enqueue_from_name'];
 
 		$dcms_mail_real = ! $this->enable_enqueu ? true : false;
 
@@ -66,13 +68,34 @@ class Process{
 
     // Force send mails queue
     public function process_force_sent(){
+        $this->process_sent();
+        wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '?page=enqueu-email' ) );
+    }
 
+
+    // Filter from and name if exixts
+    private function filter_from_sender_mail(){
+        if ( $this->email_from ){
+            add_filter( 'wp_mail_from', function(){
+                return $this->email_from;
+            });
+        }
+
+        if ( $this->email_from_name ){
+            add_filter( 'wp_mail_from_name', function(){
+                return $this->email_from_name;
+            });
+        }
+    }
+
+
+    public function process_sent(){
         $db = new Database();
 
+        $this->filter_from_sender_mail();
         $items = $db->get_pending_emails($this->quantity_batch);
 
         if ( $items ){
-
             foreach( $items as $item){
                 $atts = json_decode(base64_decode($item->data), true);
 
@@ -92,10 +115,6 @@ class Process{
 
                 usleep(DCMS_ENQUEU_TIME_BETWEEN_MAILS);
             }
-
         }
-
-        wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '?page=enqueu-email' ) );
     }
-
 }

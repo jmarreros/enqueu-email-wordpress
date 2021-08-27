@@ -20,6 +20,7 @@ use dcms\enqueu\includes\Enqueu;
 use dcms\enqueu\includes\Submenu;
 use dcms\enqueu\includes\Settings;
 use dcms\enqueu\includes\Process;
+use dcms\enqueu\includes\Cron;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -52,6 +53,7 @@ final class Loader{
 		include_once ( DCMS_ENQUEU_PATH . '/includes/submenu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/settings.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/process.php');
+		include_once ( DCMS_ENQUEU_PATH . '/includes/cron.php');
 	}
 
 	// Load tex domain
@@ -62,26 +64,18 @@ final class Loader{
 		});
 	}
 
-	// Add link to plugin list
-	public function add_link_plugin(){
-		add_action( 'plugin_action_links_' . plugin_basename( __FILE__ ), function( $links ){
-			return array_merge( array(
-				'<a href="' . esc_url( admin_url( DCMS_SUBMENU . '?page=enqueu-email' ) ) . '">' . __( 'Settings', 'dcms-enqueu-email' ) . '</a>'
-			), $links );
-		} );
-	}
-
 	// Initialize all
 	public function init(){
 		$this->define_constants();
 		$this->load_includes();
 		$this->load_domain();
-		$this->add_link_plugin();
+		// $this->add_link_plugin();
 		new Plugin();
 		new Enqueu();
 		new SubMenu();
 		new Settings();
 		new Process();
+		new Cron();
 	}
 
 }
