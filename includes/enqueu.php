@@ -11,13 +11,6 @@ class Enqueu{
 
     // Backend scripts
     public function register_scripts_backend(){
-
-        // wp_register_script('admin-enqueu-script',
-        //                     DCMS_ENQUEU_URL.'/assets/script.js',
-        //                     ['jquery'],
-        //                     DCMS_ENQUEU_VERSION,
-        //                     true);
-
         wp_register_style('admin-enqueu-style',
                             DCMS_ENQUEU_URL.'/assets/style.css',
                             [],

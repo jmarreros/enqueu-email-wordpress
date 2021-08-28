@@ -3,6 +3,7 @@
 
 // pending, error, sent
 use dcms\enqueu\includes\Database;
+use dcms\enqueu\helpers\StateName;
 
 $db = new Database();
 
@@ -11,22 +12,22 @@ $status = '';
 $fields_header = [];
 $count = 0;
 
-$current_status = isset( $_GET['status'] ) ? $_GET['status'] : 'pending';
+$current_status = isset( $_GET['status'] ) ? $_GET['status'] : StateName::pending;
 $url_status = admin_url( DCMS_ENQUEU_SUBMENU . "?page=enqueu-email&tab=cron-log&status=");
 
 switch ($current_status) {
-    case 'pending':
+    case StateName::pending:
             $items = $db->get_pending_emails();
             $status = '<span class="state pending">Pendiente</span>';
             $fields_header = ['ID', 'Correo', 'Asunto', 'Estado', 'Registro'];
             break;
-    case 'error':
-            $items = $db->get_error_emails(1000);
+    case StateName::error:
+            $items = $db->get_error_emails();
             $status = '<span class="state error">Error</span>';
             $fields_header = ['ID', 'Correo', 'Asunto', 'Estado', 'Registro', 'Enviado'];
             break;
-    case 'sent':
-            $items = $db->get_sent_emails(1000);
+    case StateName::sent:
+            $items = $db->get_sent_emails();
             $status = '<span class="state sent">Enviado</span>';
             $fields_header = ['ID', 'Correo', 'Asunto', 'Estado', 'Registro', 'Enviado'];
             break;
@@ -36,9 +37,9 @@ switch ($current_status) {
 <section class="container-report" >
 
 <ul class="subsubsub ">
-	<li><a href="<?= $url_status.'pending' ?>" class="<?= $current_status === 'pending'?'current':'' ?>">Pendientes</a> |</li>
-	<li><a href="<?= $url_status.'error' ?>" class="<?= $current_status === 'error'?'current':'' ?>">Erroneos</a> |</li>
-	<li><a href="<?= $url_status.'sent' ?>" class="<?= $current_status === 'sent'?'current':'' ?>">Enviados</a></li>
+	<li><a href="<?= $url_status . StateName::pending ?>" class="<?= $current_status == StateName::pending ?'current':'' ?>">Pendientes</a> |</li>
+	<li><a href="<?= $url_status . StateName::error ?>" class="<?= $current_status == StateName::error ?'current':'' ?>">Erroneos</a> |</li>
+	<li><a href="<?= $url_status . StateName::sent ?>" class="<?= $current_status == StateName::sent ?'current':'' ?>">Enviados</a></li>
 </ul>
 
 <section class="table-container">
@@ -63,7 +64,7 @@ switch ($current_status) {
                 <td><?= $subject ?></td>
                 <td><?= $status ?></td>
                 <td><?= $item->created ?></td>
-                <?php if ( $current_status != 'pending'): ?>
+                <?php if ( $current_status != StateName::pending ): ?>
                     <td><?= $item->updated ?></td>
                 <?php endif; ?>
             </tr>
@@ -72,7 +73,7 @@ switch ($current_status) {
     <div class="header">
         <strong>Total: <?= $count ?></strong>
 
-        <?php if ( $current_status == 'pending' ): ?>
+        <?php if ( $current_status == StateName::pending ): ?>
         <section class="buttons">
             <form method="post" id="frm-force" class="frm-force" action="<?php echo admin_url( 'admin-post.php' ) ?>" >
                 <input type="hidden" name="action" value="process_force_sent">

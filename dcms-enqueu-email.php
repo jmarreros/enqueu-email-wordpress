@@ -19,6 +19,7 @@ use dcms\enqueu\includes\Plugin;
 use dcms\enqueu\includes\Enqueu;
 use dcms\enqueu\includes\Submenu;
 use dcms\enqueu\includes\Settings;
+use dcms\enqueu\includes\Email;
 use dcms\enqueu\includes\Process;
 use dcms\enqueu\includes\Cron;
 
@@ -42,16 +43,18 @@ final class Loader{
 		define ('DCMS_ENQUEU_SUBMENU', 'tools.php');
 		define ('DCMS_ENQUEU_OPTIONS', 'dcms_enqueu_options');
 		define ('DCMS_ENQUEU_TIME_BETWEEN_MAILS', 5000); // Microseconds
+		define ('DCMS_ENQUEU_SHOW_MAX_LOG_ROWS', 1000);
 	}
 
 	// Load all the files we need
 	public function load_includes(){
-		include_once ( DCMS_ENQUEU_PATH . '/helpers/helper.php');
+		include_once ( DCMS_ENQUEU_PATH . '/helpers/state.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/database.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/plugin.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/enqueu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/submenu.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/settings.php');
+		include_once ( DCMS_ENQUEU_PATH . '/includes/email.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/process.php');
 		include_once ( DCMS_ENQUEU_PATH . '/includes/cron.php');
 	}
@@ -69,11 +72,11 @@ final class Loader{
 		$this->define_constants();
 		$this->load_includes();
 		$this->load_domain();
-		// $this->add_link_plugin();
 		new Plugin();
 		new Enqueu();
 		new SubMenu();
 		new Settings();
+		new Email();
 		new Process();
 		new Cron();
 	}

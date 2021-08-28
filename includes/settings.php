@@ -66,18 +66,18 @@ class Settings{
                             ]
         );
 
-        // add_settings_field('dcms_remove_log',
-        //                     __('Intervalo borrar log', 'dcms-enqueu-email'),
-        //                     [$this, 'dcms_section_input_cb'],
-        //                     'dcms_enqueue_sfields',
-        //                     'dcms_enqueue_section',
-        //                     [
-        //                     'dcms_option' => DCMS_ENQUEU_OPTIONS,
-        //                     'label_for' => 'dcms_remove_log',
-        //                     'required' => true,
-        //                     'description' => 'Intervalo en días para eliminar el log de correos enviados y correos con errores'
-        //                     ]
-        // );
+        add_settings_field('dcms_remove_log',
+                            __('Intervalo borrar log', 'dcms-enqueu-email'),
+                            [$this, 'dcms_section_input_cb'],
+                            'dcms_enqueue_sfields',
+                            'dcms_enqueue_section',
+                            [
+                            'dcms_option' => DCMS_ENQUEU_OPTIONS,
+                            'label_for' => 'dcms_remove_log',
+                            'required' => true,
+                            'description' => 'Intervalo en días para eliminar el log de correos enviados y correos con errores'
+                            ]
+        );
 
         add_settings_section('dcms_enqueue_section2',
                                 __('Configuración envío', 'dcms-enqueu-email'),

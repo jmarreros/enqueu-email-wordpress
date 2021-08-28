@@ -2,6 +2,8 @@
 
 namespace dcms\enqueu\includes;
 
+use dcms\enqueu\helpers\State;
+
 class Database{
     private $wpdb;
     private $table_enqueu;
@@ -31,34 +33,35 @@ class Database{
     }
 
     // Get sent email, status = 1
-    public function get_sent_emails( $quantity = false ){
-        $sent = 1;
-        return $this->get_emails_by_status($sent, $quantity, 'updated');
+    public function get_sent_emails(){
+        $sent = State::sent;
+        return $this->get_emails_by_status($sent, DCMS_ENQUEU_SHOW_MAX_LOG_ROWS, 'updated', 'DESC');
     }
 
     // Get error email, status = -1
-    public function get_error_emails( $quantity = false ){
-        $error = -1;
-        return $this->get_emails_by_status($error, $quantity, 'updated');
+    public function get_error_emails(){
+        $error = State::error;
+        return $this->get_emails_by_status($error, DCMS_ENQUEU_SHOW_MAX_LOG_ROWS, 'updated', 'DESC');
     }
 
     // Get pendieng email, status = 0
     public function get_pending_emails( $quantity = false){
-        $pending = 0;
-        return $this->get_emails_by_status($pending, $quantity, 'created' );
+        $pending = State::pending;
+        return $this->get_emails_by_status($pending, $quantity, 'created', 'ASC' );
     }
 
     // Get email by status, 0 = pending, 1 = sent, -1 = error
-    private function get_emails_by_status($status, $quantity, $order_field){
+    private function get_emails_by_status($status, $quantity, $order_field, $order_direction){
         $limit = $quantity
                     ? ' limit 0, '. $quantity
                     : '';
 
         $sql = $this->wpdb->prepare("SELECT * FROM $this->table_enqueu
                                 WHERE status = $status
-                                ORDER BY $order_field DESC $limit");
+                                ORDER BY $order_field $order_direction $limit");
 
         $result = $this->wpdb->get_results($sql);
+
         return $result;
     }
 
