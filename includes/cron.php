@@ -3,6 +3,7 @@
 namespace dcms\enqueu\includes;
 
 use dcms\enqueu\includes\Process;
+use dcms\enqueu\includes\Database;
 
 class Cron{
     private $interval_cron;
@@ -46,7 +47,8 @@ class Cron{
 
     public function dcms_cron_remove_process(){
         if ( $this->enable_enqueu ){
-            error_log('Procesando en un día');
+            $db = new Database();
+            $db->remove_log();
         }
     }
 }

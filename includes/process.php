@@ -11,12 +11,6 @@ class Process{
     private $email_from_name;
 
     public function __construct(){
-
-        $options = get_option(DCMS_ENQUEU_OPTIONS);
-        $this->quantity_batch = $options['dcms_quantity_batch'];
-        $this->email_from = $options['dcms_enqueue_from'];
-        $this->email_from_name = $options['dcms_enqueue_from_name'];
-
         add_action('admin_post_process_force_sent', [$this, 'process_force_sent']);
     }
 
@@ -43,6 +37,12 @@ class Process{
     }
 
     public function process_sent(){
+
+        $options = get_option(DCMS_ENQUEU_OPTIONS);
+        $this->quantity_batch = $options['dcms_quantity_batch'];
+        $this->email_from = $options['dcms_enqueue_from'];
+        $this->email_from_name = $options['dcms_enqueue_from_name'];
+
         $db = new Database();
 
         $this->filter_from_sender_mail();
