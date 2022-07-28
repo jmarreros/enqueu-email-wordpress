@@ -21,7 +21,7 @@ class Database{
                     `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
                     `data` mediumtext DEFAULT NULL,
                     `status` tinyint DEFAULT 0,
-                    `type` varchar(50) DEFAULT NULL,
+                    `type` varchar(250) DEFAULT NULL,
                     `resend` boolean DEFAULT FALSE,
                     `created` datetime DEFAULT CURRENT_TIMESTAMP,
                     `updated` datetime DEFAULT NULL,
@@ -56,9 +56,11 @@ class Database{
                     ? ' limit 0, '. $quantity
                     : '';
 
-        $sql = $this->wpdb->prepare("SELECT * FROM $this->table_enqueu
-                                WHERE status = $status
-                                ORDER BY $order_field $order_direction $limit");
+        $sql = $this->wpdb->prepare("SELECT * FROM {$this->table_enqueu}
+                                WHERE status = %d
+                                ORDER BY {$order_field} {$order_direction} $limit", 
+                                $status
+                            );
 
         $result = $this->wpdb->get_results($sql);
 
@@ -86,8 +88,9 @@ class Database{
 
     // Remove log
     public function remove_log(){
-        $sql = $this->wpdb->prepare("DELETE FROM {$this->table_enqueu} WHERE `status` <> %d", State::pending);
-        return $this->wpdb->query($sql);
+        // $sql = $this->wpdb->prepare("DELETE FROM {$this->table_enqueu} WHERE `status` <> %d", State::pending);
+        // return $this->wpdb->query($sql);
+        return true;
     }
 
 }

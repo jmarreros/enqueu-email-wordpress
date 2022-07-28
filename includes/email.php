@@ -31,7 +31,9 @@ class Email{
             $email_data = base64_encode(json_encode($atts));
 
             $db = new Database();
-            $db->insert_email_data($email_subject, $email_data);
+            $result = $db->insert_email_data($email_subject, $email_data);
+            
+            if ( ! $result ) error_log('Error insertar: '. $atts['to'] . ' - '.$email_subject);
         }
 
         return $atts;

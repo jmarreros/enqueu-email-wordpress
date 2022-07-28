@@ -15,11 +15,11 @@ class Submenu{
     public function register_submenu(){
         add_submenu_page(
             DCMS_ENQUEU_SUBMENU,
-            __('Enqueu Emails','dcms-enqueu-email'),
-            __('Enqueu Emails','dcms-enqueu-email'),
+            __('Cola de correos','dcms-enqueu-email'),
+            __('Cola de correos','dcms-enqueu-email'),
             'manage_options',
             'enqueu-email',
-            [$this, 'submenu_page_callback']
+            [$this, 'submenu_page_callback'],
         );
     }
 

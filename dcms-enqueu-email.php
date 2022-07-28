@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Enqueu Email
+Plugin Name: Sporting Enqueu Email
 Plugin URI: https://decodecms.com
 Description: Plugin enqueu email, enqueu emails and send it via cron or by a button to force, save emails in the database
 Version: 1.0
@@ -40,10 +40,11 @@ final class Loader{
 		define ('DCMS_ENQUEU_PATH', plugin_dir_path( __FILE__ ));
 		define ('DCMS_ENQUEU_URL', plugin_dir_url( __FILE__ ));
 		define ('DCMS_ENQUEU_BASE_NAME', plugin_basename( __FILE__ ));
-		define ('DCMS_ENQUEU_SUBMENU', 'tools.php');
 		define ('DCMS_ENQUEU_OPTIONS', 'dcms_enqueu_options');
 		define ('DCMS_ENQUEU_TIME_BETWEEN_MAILS', 5000); // Microseconds
-		define ('DCMS_ENQUEU_SHOW_MAX_LOG_ROWS', 1000);
+		define ('DCMS_ENQUEU_SHOW_MAX_LOG_ROWS', 1000000);
+		// define ('DCMS_ENQUEU_SUBMENU', 'tools.php');
+		define ('DCMS_ENQUEU_SUBMENU', 'edit.php?post_type=events_sporting');
 	}
 
 	// Load all the files we need

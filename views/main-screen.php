@@ -16,7 +16,7 @@ echo "<h1>" . __('Cola de correos', 'dcms-enqueu-email') . "</h1>";
 echo '<h2 class="nav-tab-wrapper">';
 foreach ( $plugin_tabs as $tab_key => $tab_caption ) {
     $active = $current_tab == $tab_key ? 'nav-tab-active' : '';
-    echo "<a data-tab='".$current_tab."' class='nav-tab " . $active . "' href='".admin_url( DCMS_ENQUEU_SUBMENU . "?page=enqueu-email&tab=" . $tab_key )."'>" . $tab_caption . '</a>';
+    echo "<a data-tab='".$current_tab."' class='nav-tab " . $active . "' href='".admin_url( DCMS_ENQUEU_SUBMENU . "&page=enqueu-email&tab=" . $tab_key )."'>" . $tab_caption . '</a>';
 }
 echo '</h2>';
 

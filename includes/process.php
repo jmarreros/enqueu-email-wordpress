@@ -17,7 +17,7 @@ class Process{
     // Force send mails queue
     public function process_force_sent(){
         $this->process_sent();
-        wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '?page=enqueu-email' ) );
+        wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '&page=enqueu-email' ) );
     }
 
 
@@ -48,7 +48,7 @@ class Process{
         $this->filter_from_sender_mail();
 
         $items = $db->get_pending_emails($this->quantity_batch);
-
+        
         if ( $items ){
             foreach( $items as $item){
                 $atts = json_decode(base64_decode($item->data), true);
