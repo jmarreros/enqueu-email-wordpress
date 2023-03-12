@@ -14,7 +14,7 @@ class Cron{
 
         $options = get_option(DCMS_ENQUEU_OPTIONS);
         $this->interval_cron = intval($options['dcms_cron_interval']);
-        $this->enable_enqueu = $options['dcms_enable_queue'];
+        $this->enable_enqueu = $options['dcms_enable_queue']??0;
         $this->interval_remove_log = intval($options['dcms_remove_log']);
 
         add_filter( 'cron_schedules', [ $this, 'dcms_custom_schedule' ]);

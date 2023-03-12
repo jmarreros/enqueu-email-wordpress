@@ -12,7 +12,7 @@ class Email{
 		global $dcms_mail_real;
 
         $options = get_option(DCMS_ENQUEU_OPTIONS);
-        $this->enable_enqueu = $options['dcms_enable_queue'];
+        $this->enable_enqueu = $options['dcms_enable_queue']??0;
 
 		$dcms_mail_real = ! $this->enable_enqueu ? true : false;
 

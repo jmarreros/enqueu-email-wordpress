@@ -19,7 +19,7 @@ class Submenu{
             __('Cola de correos','dcms-enqueu-email'),
             'manage_options',
             'enqueu-email',
-            [$this, 'submenu_page_callback'],
+            [$this, 'submenu_page_callback']
         );
     }
 

@@ -88,8 +88,8 @@ class Database{
 
     // Remove log
     public function remove_log(){
-        // $sql = $this->wpdb->prepare("DELETE FROM {$this->table_enqueu} WHERE `status` <> %d", State::pending);
-        // return $this->wpdb->query($sql);
+        //$sql = $this->wpdb->prepare("DELETE FROM {$this->table_enqueu} WHERE `status` <> %d", State::pending);
+        //return $this->wpdb->query($sql);
         return true;
     }
 
