@@ -42,7 +42,7 @@ final class Loader{
 		define ('DCMS_ENQUEU_BASE_NAME', plugin_basename( __FILE__ ));
 		define ('DCMS_ENQUEU_OPTIONS', 'dcms_enqueu_options');
 		define ('DCMS_ENQUEU_TIME_BETWEEN_MAILS', 5000); // Microseconds
-		define ('DCMS_ENQUEU_SHOW_MAX_LOG_ROWS', 1000000);
+		define ('DCMS_ENQUEU_SHOW_MAX_LOG_ROWS', 10000);
 		// define ('DCMS_ENQUEU_SUBMENU', 'tools.php');
 		define ('DCMS_ENQUEU_SUBMENU', 'edit.php?post_type=events_sporting');
 	}

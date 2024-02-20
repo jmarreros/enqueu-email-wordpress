@@ -71,7 +71,7 @@ switch ($current_status) {
         <?php endforeach; ?>
     </table>
     <div class="header">
-        <strong>Total: <?= $count ?></strong>
+        <strong>Los <?= $count ?> recientes</strong>
 
         <?php if ( $current_status == StateName::pending ): ?>
         <section class="buttons">
