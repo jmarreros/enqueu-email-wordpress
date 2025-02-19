@@ -16,7 +16,7 @@ class Process {
 	// Force send mails queue
 	public function process_force_sent() {
 		$this->process_sent();
-		wp_redirect( admin_url( DCMS_ENQUEU_SUBMENU . '&page=enqueu-email' ) );
+		wp_redirect( admin_url(     DCMS_ENQUEU_SUBMENU . '&page=enqueu-email' ) );
 	}
 
 

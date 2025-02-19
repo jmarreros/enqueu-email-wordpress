@@ -13,7 +13,7 @@ $fields_header = [];
 $count = 0;
 
 $current_status = isset( $_GET['status'] ) ? $_GET['status'] : StateName::pending;
-$url_status = admin_url( DCMS_ENQUEU_SUBMENU . "&page=enqueu-email&tab=cron-log&status=");
+$url_status = admin_url( DCMS_ENQUEU_PAGE_ENQUEUE . "&page=enqueu-email&tab=cron-log&status=");
 
 switch ($current_status) {
     case StateName::pending:
