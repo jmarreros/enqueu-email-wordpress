@@ -16,7 +16,7 @@ class Process {
 	// Force send mails queue
 	public function process_force_sent() {
 		$this->process_sent();
-		wp_redirect( admin_url(     DCMS_ENQUEU_SUBMENU . '&page=enqueu-email' ) );
+		wp_redirect( admin_url( 'admin.php?page=enqueu-email' ) );
 	}
 
 
@@ -38,9 +38,9 @@ class Process {
 	public function process_sent() {
 		$restrict_mails = [ '@emailtemp.com', '@emailexists.com' ];
 
-		$options          = get_option( DCMS_ENQUEU_OPTIONS );
-		$quantity_batch   = $options['dcms_quantity_batch'];
-		$this->email_from = $options['dcms_enqueue_from'];
+		$options               = get_option( DCMS_ENQUEU_OPTIONS );
+		$quantity_batch        = $options['dcms_quantity_batch'];
+		$this->email_from      = $options['dcms_enqueue_from'];
 		$this->email_from_name = $options['dcms_enqueue_from_name'];
 
 		$db = new Database();
@@ -74,7 +74,9 @@ class Process {
 
 				// Send email
 				global $dcms_mail_real;
+				global $dcms_mail_real_specific_subject;
 				$dcms_mail_real = true; // real email sending
+				$dcms_mail_real_specific_subject = true;
 
 				$sended = wp_mail( $to, $subject, $message, $headers, $attachments );
 

@@ -24,9 +24,23 @@ class Email{
     // Save email data
     public function dcms_wp_mail( $atts ){
         global $dcms_mail_real;
+	    global $dcms_mail_real_specific_subject;
 
-		if($dcms_mail_real == false){
-            $email_subject = $atts['subject'];
+	    $email_subject = $atts['subject'];
+
+		if ( ! $dcms_mail_real_specific_subject ){
+			//Only for mails with certain subject
+			$options_customarea = get_option( 'customarea_options' ) ?? [];
+			$subject_customarea = $options_customarea['dcms_subject_email_validation'] ?? '';
+
+			if ( $subject_customarea !== '' &&  $email_subject !== $subject_customarea ) {
+				$dcms_mail_real = true;
+			} else {
+				$dcms_mail_real = false;
+			}
+		}
+
+		if( ! $dcms_mail_real ){
 
             $email_data = base64_encode(json_encode($atts));
 
@@ -42,7 +56,7 @@ class Email{
     // For cancel email send
     public function dcms_pre_wp_mail(){
         global $dcms_mail_real;
-		if($dcms_mail_real == false){
+		if( ! $dcms_mail_real ){
 			return true;
 		}
 		return null;
@@ -52,7 +66,7 @@ class Email{
     public function dcms_phpmailer_init( &$phpmailer ){
 		global $dcms_mail_real;
 
-		if( $dcms_mail_real == false ){
+		if( ! $dcms_mail_real ){
 			remove_all_actions( 'phpmailer_init' );
 			$phpmailer = new class {
                                 function send(){ return true; }
